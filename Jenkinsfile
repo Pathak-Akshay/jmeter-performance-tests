@@ -1,10 +1,12 @@
 pipeline {
     agent {
-        label 'jmeter-agent'  
+        label 'jmeter-agent' 
     }
+
     environment {
-        JMETER_HOME = '/opt/apache-jmeter-5.6.3' 
+        JMETER_HOME = '/opt/apache-jmeter-5.6.3'
     }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -12,7 +14,7 @@ pipeline {
             }
         }
 
-        stage('Run JMeter Test') {
+        stage('Run JMeter Tests and Generate HTML Reports') {
             steps {
                 sh """
                     mkdir -p results
@@ -20,19 +22,9 @@ pipeline {
                         name=\$(basename "\$file" .jmx)
                         result_file="results/\${name}_result.jtl"
                         report_dir="results/\${name}_report"
-                
+
                         echo "Running JMeter test for: \$file"
-                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file" -Jjmeter.save.saveservice.output_format=xml
-
-                        echo "Checking content of \$result_file:"
-                        cat "\$result_file"
-
-                        if grep -q '<sample' "\$result_file"; then
-                           echo "Generating HTML report for: \$file"
-                           ${JMETER_HOME}/bin/jmeter -g "\$result_file" -o "\$report_dir"
-                        else
-                           echo "WARNING: No valid samples in \$result_file, skipping report generation."
-                         fi
+                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file" -e -o "\$report_dir"
                     done
                 """
             }
