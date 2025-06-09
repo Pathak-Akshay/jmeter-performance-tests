@@ -22,7 +22,7 @@ pipeline {
                         report_dir="results/\${name}_report"
                 
                         echo "Running JMeter test for: \$file"
-                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file -Jjmeter.save.saveservice.output_format=xml"
+                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file" -Jjmeter.save.saveservice.output_format=xml
 
                         echo "Checking content of \$result_file:"
                         cat "\$result_file"
