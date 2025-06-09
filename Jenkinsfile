@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/Pathak-Akshay/jmeter-performance-tests.git'
+                git branch: 'main', url: 'https://github.com/Pathak-Akshay/jmeter-performance-tests.git'
             }
         }
 
