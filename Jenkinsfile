@@ -24,7 +24,7 @@ pipeline {
         stage('Archive Results') {
             steps {
                 archiveArtifacts artifacts: 'results/result.jtl', fingerprint: true
-                publishHTML([
+                publishHTML(target: [
                     reportDir: 'results/html-report',
                     reportFiles: 'index.html',
                     reportName: 'JMeter Test Report',
