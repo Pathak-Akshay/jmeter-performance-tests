@@ -17,6 +17,8 @@ pipeline {
         stage('Run JMeter Tests and Generate HTML Reports') {
             steps {
                 sh """
+                    echo "Cleaning up previous results..."
+                    rm -rf results
                     mkdir -p results
                     for file in jmeter/test-plans/*.jmx; do
                         name=\$(basename "\$file" .jmx)
