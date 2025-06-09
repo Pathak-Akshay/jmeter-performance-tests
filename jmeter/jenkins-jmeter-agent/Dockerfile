@@ -1,11 +1,14 @@
 FROM ubuntu:22.04
 
-# Install tools
+# Install required packages
 RUN apt-get update && \
-    apt-get install -y openssh-server sudo openjdk-11-jdk wget unzip && \
+    apt-get install -y openjdk-17-jdk openssh-server sudo wget unzip && \
     mkdir -p /var/run/sshd
+	
+# Install Git
+RUN apt-get update && apt-get install -y git
 
-# Create Jenkins user
+# Add Jenkins user
 RUN useradd -ms /bin/bash jenkins && echo "jenkins:jenkins" | chpasswd && adduser jenkins sudo
 
 # SSH config
@@ -19,6 +22,9 @@ RUN wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz &&
     ln -s /opt/apache-jmeter-5.6.3/bin/jmeter /usr/bin/jmeter && \
     rm apache-jmeter-5.6.3.tgz
 
-EXPOSE 22
+# Set JAVA_HOME and update PATH
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
+EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
