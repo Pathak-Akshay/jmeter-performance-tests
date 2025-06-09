@@ -27,7 +27,10 @@ pipeline {
                 publishHTML([
                     reportDir: 'results/html-report',
                     reportFiles: 'index.html',
-                    reportName: 'JMeter Test Report'
+                    reportName: 'JMeter Test Report',
+                    allowMissing: false,
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
                 ])
             }
         }
