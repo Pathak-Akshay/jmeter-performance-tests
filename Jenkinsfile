@@ -20,9 +20,16 @@ pipeline {
                         name=\$(basename "\$file" .jmx)
                         result_file="results/\${name}_result.jtl"
                         report_dir="results/\${name}_report"
-                        
+                
+                        echo "Running JMeter test for: \$file"
                         ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file"
+
+                        if [ -s "\$result_file" ]; then
+                        echo "Generating HTML report for: \$file"
                         ${JMETER_HOME}/bin/jmeter -g "\$result_file" -o "\$report_dir"
+                        else
+                        echo "WARNING: No results found for \$file, skipping report generation."
+                        fi
                     done
                 """
             }
