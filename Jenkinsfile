@@ -1,9 +1,9 @@
 pipeline {
     agent {
-        label 'jmeter-agent'  // replace with your actual agent label
+        label 'jmeter-agent'  
     }
     environment {
-        JMETER_HOME = '/opt/apache-jmeter-5.6.3' // adjust path if different
+        JMETER_HOME = '/opt/apache-jmeter-5.6.3' 
     }
     stages {
         stage('Checkout Code') {
@@ -22,7 +22,7 @@ pipeline {
                         report_dir="results/\${name}_report"
                 
                         echo "Running JMeter test for: \$file"
-                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file"
+                        ${JMETER_HOME}/bin/jmeter -n -t "\$file" -l "\$result_file -Jjmeter.save.saveservice.output_format=xml"
 
                         echo "Checking content of \$result_file:"
                         cat "\$result_file"
