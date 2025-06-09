@@ -16,7 +16,10 @@ pipeline {
             steps {
                 sh """
                     mkdir -p results
-                    ${JMETER_HOME}/bin/jmeter -n -t jmeter/test-plans/RestfulBooker.jmx -l results/result.jtl -e -o results/html-report
+                    for file in jmeter/test-plans/*.jmx; do
+                        name=$(basename "$file" .jmx)
+                        ${JMETER_HOME}/bin/jmeter -n -t "$file" -l "results/${name}_result.jtl"
+                    done
                 """
             }
         }
