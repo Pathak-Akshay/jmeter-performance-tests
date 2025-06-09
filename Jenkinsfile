@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh """
                     mkdir -p results
-                    ${JMETER_HOME}/bin/jmeter -n -t test-plans/RestfulBooker.jmx -l results/result.jtl -e -o results/html-report
+                    ${JMETER_HOME}/bin/jmeter -n -t jmeter/test-plans/RestfulBooker.jmx -l results/result.jtl -e -o results/html-report
                 """
             }
         }
